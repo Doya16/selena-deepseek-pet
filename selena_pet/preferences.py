@@ -1,14 +1,14 @@
 import copy,datetime,json,pathlib,shutil,threading
-from PySide6.QtCore import Qt,QObject,Signal
+from PySide6.QtCore import Qt,QObject,Signal,QTimer
 from PySide6.QtGui import QFontDatabase
-from PySide6.QtWidgets import QDialog,QWidget,QVBoxLayout,QHBoxLayout,QFormLayout,QLabel,QTabWidget,QScrollArea,QComboBox,QSpinBox,QCheckBox,QPushButton,QLineEdit,QFileDialog,QMessageBox
+from PySide6.QtWidgets import QApplication,QStyle,QDialog,QWidget,QVBoxLayout,QHBoxLayout,QFormLayout,QLabel,QTabWidget,QScrollArea,QComboBox,QSpinBox,QCheckBox,QPushButton,QLineEdit,QFileDialog,QMessageBox
 from .appearance import stylesheet,load_fonts
 from .config_io import export_bundle,import_bundle,save_atomic
 from .paths import ROOT,DSH_HOME
 from .sizing import SizeControl
 from .paths import VERSION,AUDIO_SESSION_NAME
 from .presentation_size import PresentationControl
-from .settings_layout import Page,WheelGuard,widen
+from .settings_layout import Page,WheelGuard,widen,long_list
 from .order_list import OrderList
 from .previews import CardPreview
 
@@ -87,7 +87,7 @@ class Preferences(QDialog):
         voice.addRow('同一状态最短播报间隔',self.spin('audio_cooldown',0,300,' 秒'))
         row,self.audio_dir=self.path_control('audio_directory','选择音频目录',directory=True); voice.addRow('音频目录',row)
         stop=QPushButton('停止当前声音'); stop.clicked.connect(pet.voice.stop); voice.addRow(stop)
-        note=QLabel('自动播报会先说完整句，GIF 切换不会截断声音。多会话完成提醒依次播放；忙时其他交互保留一条待播提醒，优先任务通知；待机／悬停不插队。思考默认每轮只播一次，轮次在实际播放时记账。主动试听或停止声音可以中断。'); note.setWordWrap(True); voice.addRow(note)
+        note=QLabel('表情会等台词说完再切换：单次播放的 GIF 停在最后一帧，循环的继续循环。说话时再点、双击或拖动她，会打断互动台词，换成新的回应；完成、出错、暂停和等你回应的台词总会说完，期间单击和双击先不响应，拖动照常跟手。任务进度变化时表情立即切换，正在说的台词继续说完。等候中的台词如果对应的表情已经结束，就不再补播。多会话完成提醒依次播放；思考默认每轮只播一次。主动试听或停止声音可以中断。'); note.setWordWrap(True); voice.addRow(note)
         transfer=self.tab('保存与迁移')
         transfer.section('保存')
         note=QLabel('修改会自动保存。你也可以立即保存快照，或把 GIF、字体、已绑定音频和配置一起打包。便携包还包含 Windows 运行程序。'); note.setWordWrap(True); transfer.addRow(note)
@@ -139,7 +139,23 @@ class Preferences(QDialog):
         self.refresh_controls(); self.loading=False; self.apply_style()
     def showEvent(self,event):
         # Start on the tab bar, never inside a choice the keyboard or wheel could change by accident.
-        super().showEvent(event); self.tabs.tabBar().setFocus()
+        super().showEvent(event); self.tabs.tabBar().setFocus(); QTimer.singleShot(0,self.fit_pages)
+    def fit_pages(self):
+        """Grow the window, within its screen, until the widest page and every preview card are in view.
+        Never shrinks a window the user made larger."""
+        current=self.tabs.currentWidget()
+        if not self.isVisible() or not isinstance(current,QScrollArea): return
+        pages=[self.tabs.widget(i) for i in range(self.tabs.count())]
+        need=max((page.widget().minimumSizeHint().width() for page in pages if isinstance(page,QScrollArea) and page.widget()),default=0)
+        # Window edges, tabs and margins around the page, plus room for a page's own vertical scroll bar.
+        bar=0 if current.verticalScrollBar().isVisible() else self.style().pixelMetric(QStyle.PixelMetric.PM_ScrollBarExtent)
+        chrome=self.width()-current.viewport().width()+bar
+        screen=(self.screen() or QApplication.primaryScreen()).availableGeometry()
+        frame=self.frameGeometry().width()-self.width(); title=self.frameGeometry().height()-self.height()
+        width=max(self.width(),min(need+chrome,screen.width()-frame)); height=min(self.height(),screen.height()-title)
+        if (width,height)==(self.width(),self.height()): return
+        self.resize(width,height); g=self.frameGeometry()
+        self.move(max(screen.left(),min(g.left(),screen.right()+1-g.width())),max(screen.top(),min(g.top(),screen.bottom()+1-g.height())))
     def line_style(self,kind):
         """Bold and italic switches and a colour button for one floating-text line."""
         row=QHBoxLayout(); row.setSpacing(10)
@@ -181,7 +197,7 @@ class Preferences(QDialog):
     def combo(self,key,names):
         control=QComboBox()
         for name in names: control.addItem(name,name)
-        control.currentIndexChanged.connect(lambda:self.change(key,control.currentData())); self.controls[key]=control; return control
+        control.currentIndexChanged.connect(lambda:self.change(key,control.currentData())); self.controls[key]=control; return long_list(control)
     def spin(self,key,low,high,suffix):
         control=QSpinBox(); control.setRange(low,high); control.setSuffix(suffix); control.setKeyboardTracking(False); control.valueChanged.connect(lambda value:self.change(key,value)); self.controls[key]=control; return control
     def path_control(self,key,title,directory):
@@ -234,6 +250,8 @@ class Preferences(QDialog):
             +f'QLabel#settingsSection{{font-size:{size+1}px;font-weight:600;color:#2e5280;}}'
             +f'QLabel#settingsNote{{font-size:{max(12,size-3)}px;color:#6f819b;}}'
             +'QLabel#settingsLabel{color:#3d5573;}QFrame#settingsCard QPushButton{padding:6px 16px;}')
+        # A larger panel font widens the pages; keep every preview in view.
+        if self.isVisible(): QTimer.singleShot(0,self.fit_pages)
     def create_shortcut(self):
         from .shortcuts import create_desktop_shortcut
         self.set_busy(True);self.status.setText('正在创建桌面快捷方式…')
