@@ -1,0 +1,1 @@
+"""Selena DeepSeek desktop companion."""
