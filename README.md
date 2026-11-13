@@ -21,19 +21,29 @@
 
 适用于 **Windows 10/11 x64**。完整包附带两套皮肤共 128 个 GIF、115 条赛琳娜语音（含字幕）、字体和 Harness 连接插件，无需安装 Python。也有 [Codex 版](https://github.com/Doya16/selena-codex-pet)，两版可以同时运行，分别保存设置。
 
-## 下载与一键部署
+## 安装方法
 
-1. 安装官方 **DeepSeek Harness** 并登录一次。
-2. 打开 [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest)，下载 **Selena-DeepSeek-Windows-v1.0.4.zip**。
-3. 把整个 ZIP **完整解压**到一个可写的文件夹，例如 `D:\赛琳娜DeepSeek桌宠`。
-4. 双击文件夹里的 **一键部署.cmd**。它会：
+**系统要求**：Windows 10（1809 及以后）或 Windows 11，64 位；Windows 7 / 8 无法运行。需要先安装官方 **DeepSeek Harness** 桌面客户端，并登录、打开过一次。
+
+1. 打开 [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest)，下载 **Selena-DeepSeek-Windows-v1.0.4.zip**。
+2. 解压：右键压缩包 →「全部解压缩」，或用 7-Zip / WinRAR 选「解压到 Selena-DeepSeek-Windows-v…\」（和压缩包同名的文件夹）。
+   - 不要选「解压到当前文件夹」：压缩包里没有外层文件夹，文件会散在下载目录里。
+   - 不要解压到 `C:\Program Files` 这类不能写入的位置，也不要在压缩软件里直接双击运行。
+3. 进入解压出来的文件夹，双击 **一键部署.cmd**。它会：
    - 检查文件是否解压完整、文件夹能否写入；
-   - 找到 DeepSeek Harness，提示你从托盘**完全退出** Harness（登录状态会保留），然后安装 Harness 连接插件；
+   - 找到 DeepSeek Harness，提示你**完全退出** Harness：在托盘的 Harness 图标上右键 → 退出，回到部署窗口按回车（登录状态会保留），然后安装 Harness 连接插件；
    - 创建桌面和开始菜单快捷方式；
    - 启动赛琳娜。
-5. 重新打开 Harness，开始任务。桌宠自动跟随最近活动的会话。
+4. 重新打开 Harness，开始任务。桌宠自动跟随最近活动的会话，同步状态和余额。
 
 之后从桌面快捷方式启动即可。暂时不想退出 Harness 时，可以在提示处输入 `S` 跳过插件，之后再运行一次「一键部署.cmd」，或在 **设置 → 连接 DeepSeek → 安装 / 更新 Harness 连接插件** 中安装。无需额外填写 API Key。
+
+**如果被系统或安全软件拦下：**
+
+- 弹出「Windows 已保护你的电脑」时，点「更多信息」→「仍要运行」；弹出「打开文件 - 安全警告」时，点「运行」。程序没有购买商业代码签名，所以 Windows 会这样提示，并不是病毒。
+- 360、火绒等安全软件如果拦截，请把这个文件夹加入信任区。全部源码公开在 GitHub：[github.com/Doya16/selena-deepseek-pet](https://github.com/Doya16/selena-deepseek-pet)；每个版本的发布页都附有 SHA256SUMS 校验文件，可以核对下载的文件是否完整、未被改动。
+
+以后有新版本，桌宠会自己提示，点 **更新并重启赛琳娜** 即可一键更新，设置和素材都会保留（见下文「一键更新」）。
 
 声音默认开启，音量为 10%。在「设置 → 桌面与声音」中调整或关闭。
 

@@ -19,15 +19,31 @@
 
 For the official **DeepSeek Harness Windows client**, on **Windows 10/11 x64**. The full package includes two skins with 128 GIFs, 115 Selena voice lines with subtitles, fonts and the Harness connection plugin; no Python installation is required. A [Codex edition](https://github.com/Doya16/selena-codex-pet) is also available; both can run together.
 
-## Download and one-click deploy
+## Installation
 
-1. Install the official **DeepSeek Harness** and sign in once.
-2. Download **Selena-DeepSeek-Windows-v1.0.4.zip** from [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest).
-3. **Extract the whole ZIP** into a writable folder, for example `D:\Selena`.
-4. Double-click **一键部署.cmd** (one-click deploy). It checks the package, asks you to fully quit Harness from the tray (your login is kept), installs the Harness connection plugin, creates desktop and Start menu shortcuts and starts Selena.
-5. Reopen Harness and start a task; the pet follows the most recent conversation.
+**Requirements**: Windows 10 (1809 or later) or Windows 11, 64-bit; Windows 7 / 8 are not supported. Install the official **DeepSeek Harness** desktop app first, then sign in and open it once.
 
-If you would rather not quit Harness now, type `S` at the prompt to skip the plugin and run the script again later, or use **Settings → Connect DeepSeek → Install / update the Harness connection plugin**. No API key is needed.
+1. Open [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest) and download **Selena-DeepSeek-Windows-v1.0.4.zip**.
+2. Extract it: right-click the ZIP → **Extract All**, or in 7-Zip / WinRAR choose **Extract to "Selena-DeepSeek-Windows-v…\"** (a folder named after the ZIP).
+   - Don't choose "Extract here": the ZIP has no top-level folder, so the files would spill into your Downloads folder.
+   - Don't extract into a folder you cannot write to, such as `C:\Program Files`, and don't run it from inside the archive viewer.
+3. Open the extracted folder and double-click **一键部署.cmd** (one-click deploy). It:
+   - checks that the package is complete and the folder is writable;
+   - finds DeepSeek Harness and asks you to **fully quit** it: right-click the Harness tray icon → Quit, then press Enter in the deploy window (your login is kept). It then installs the Harness connection plugin;
+   - creates desktop and Start menu shortcuts;
+   - starts Selena.
+4. Reopen Harness and start a task. The pet follows the most recent conversation and shows its state and your balance.
+
+Afterwards, start the pet from the desktop shortcut. If you would rather not quit Harness now, type `S` at the prompt to skip the plugin and run the script again later, or use **Settings → Connect DeepSeek → Install / update the Harness connection plugin**. No API key is needed.
+
+**If Windows or your security software stops it:**
+
+- If **Windows protected your PC** appears, click **More info** → **Run anyway**; if **Open File - Security Warning** appears, click **Run**. The program has no paid code-signing certificate, which is why Windows asks; it is not a virus.
+- If 360, Huorong or another security suite blocks it, add the folder to its trusted list. All source code is public on GitHub: [github.com/Doya16/selena-deepseek-pet](https://github.com/Doya16/selena-deepseek-pet). Every release page has a SHA256SUMS file for checking that your download is complete and unmodified.
+
+When a new version is out, the pet tells you; click **更新并重启赛琳娜** (update and restart Selena) to update in one step, keeping your settings and assets (see "One-click updates" below).
+
+Sound is on by default at 10% volume. Change it in Settings → Desktop & Sound.
 
 ## Two skins
 
