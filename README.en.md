@@ -1,7 +1,7 @@
 <!-- README language switch -->
 [![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-555555?style=for-the-badge)](README.md) [![English](https://img.shields.io/badge/English-1677ff?style=for-the-badge)](README.en.md)
 
-**v1.0.3**: 33 voice lines that were cut short when the assets were exported are now complete (an installed pet swaps in the full versions after updating), and the last moment of a line is no longer swallowed. A voice line, once started, is always said in full: clicking or dragging her while she speaks changes only her pose. The settings window shows every preview when it opens. Two skins (bridal / original) with 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script that also installs the Harness connection plugin; later versions update from inside the pet.
+**v1.0.4**: You choose how long "remind me later" on the rest reminder waits (1–240 minutes, 30 by default); the button on the reminder card shows your choice. Since v1.0.3, 33 voice lines that were cut short when the assets were exported are complete (an installed pet swaps in the full versions after updating), and the last moment of a line is no longer swallowed. A voice line, once started, is always said in full: clicking or dragging her while she speaks changes only her pose. The settings window shows every preview when it opens. Two skins (bridal / original) with 128 expressions, and 115 Selena voice lines set up for 16 interactions. The full package includes a one-click deploy script that also installs the Harness connection plugin; later versions update from inside the pet.
 
 <!-- /README language switch -->
 
@@ -22,7 +22,7 @@ For the official **DeepSeek Harness Windows client**, on **Windows 10/11 x64**. 
 ## Download and one-click deploy
 
 1. Install the official **DeepSeek Harness** and sign in once.
-2. Download **Selena-DeepSeek-Windows-v1.0.3.zip** from [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest).
+2. Download **Selena-DeepSeek-Windows-v1.0.4.zip** from [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest).
 3. **Extract the whole ZIP** into a writable folder, for example `D:\Selena`.
 4. Double-click **一键部署.cmd** (one-click deploy). It checks the package, asks you to fully quit Harness from the tray (your login is kept), installs the Harness connection plugin, creates desktop and Start menu shortcuts and starts Selena.
 5. Reopen Harness and start a task; the pet follows the most recent conversation.
