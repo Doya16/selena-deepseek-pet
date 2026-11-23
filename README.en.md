@@ -34,7 +34,7 @@ For **Windows 10/11 x64**. The full package includes **the bridal expression pre
 
 **Requirements**: Windows 10 (1809 or later) or Windows 11, 64-bit. Windows 7 and 8 are not supported. Install the official **DeepSeek Harness** desktop client first, sign in, and open it at least once.
 
-1. Open [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest) and download **Selena-DeepSeek-Windows-v1.0.5.zip**.
+1. Open [Releases](https://github.com/Doya16/selena-deepseek-pet/releases/latest) and download **Selena-DeepSeek-Windows-v1.0.6.zip**.
 2. Extract it: right-click the zip → "Extract All", or in 7-Zip / WinRAR choose "Extract to Selena-DeepSeek-Windows-v…\" (a folder named after the zip).
    - Don't choose "Extract here": the zip has no top-level folder, so the files would spill into your Downloads folder.
    - Don't extract into a read-only location such as `C:\Program Files`, and don't run it from inside the archive viewer.
